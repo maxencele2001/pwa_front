@@ -12,7 +12,6 @@ const Login = ({onLogin}) => {
     e.preventDefault();
 
     try {
-      // Envoyer les données de connexion à l'API Symfony avec Fetch
       const response = await fetch('http://localhost:8000/login', {
         method: 'POST',
         headers: {
@@ -22,26 +21,17 @@ const Login = ({onLogin}) => {
       });
 
       if (!response.ok) {
-        // Gérer les erreurs en cas d'identifiants invalides ou autres problèmes de connexion
         throw new Error('Identifiants invalides');
       }
 
-      // Récupérer le token JWT depuis la réponse
       const data = await response.json();
       const token = data.token;
       const role = data.role;
-
-      // Stocker le token dans le local storage ou les cookies
-      // pour une utilisation ultérieure dans les requêtes
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       navigate('/');
-      onLogin()
-
-      // Rediriger l'utilisateur vers une autre page (par exemple, la page d'accueil)
-      // ou effectuer d'autres actions en cas de connexion réussie
+      onLogin();
     } catch (error) {
-      // Gérer les erreurs ici
       console.error(error.message);
     }
   };
